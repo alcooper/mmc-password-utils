@@ -1,0 +1,3 @@
+#!/bin/sh
+PW=`grep $2 /etc/mmc-password.db | awk '{ print $2 }'`
+/bin/keyctl instantiate $1 $PW @s
