@@ -1,0 +1,12 @@
+#! /bin/sh
+# Retry the unlocking of any SD/MMC devices that were locked but
+# probed before the filesystem containing the passwords was available.
+# This should be run after sysfs and the fileystem containing the
+# passwords is available.
+
+if [ -e /bin/keyctl ]; then
+    keyctl purge mmc
+    for retry in /sys/bus/mmc/devices/mmc*/unlock_retry; do
+	echo 1 >$retry
+    done
+fi
