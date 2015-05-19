@@ -12,3 +12,5 @@ unlock - Unlock the SD/MMC device. The device must already have a password set.
 erase - Erase the entire devices contents and then clear the password. Only works on a locked device.
 
 There can be an issue when booting a system with a locked device already installed where the unlock operation during the device probe happens before the filesystem that contains the password file is available. In this case the kernel driver will initialize the device enough to create the sysfs entries and the /dev/mmcblk0 special device even though all read/writes to the block device will fail. Once the filesystem containing the password information is available, doing an echo to "/sys/bus/mmc/devices/mmc0*/unlock_retry" will cause the driver to retry the unlock operation and if successful to bring the device up fully, including all it's partitions. The best way to handle this issue is to run the included mmc-password-retry rc file during boot after sysfs and the required filesystem are available.
+
+The supplied Makefile will install the config files and scripts.
